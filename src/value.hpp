@@ -2,9 +2,9 @@
 #define VALUE
 
 #include "Def.hpp"
-#include "shared.hpp"
+#include "smart_ptr.hpp"
 #include "expr.hpp"
-#include <memory>
+// #include <memory>
 #include <cstring>
 #include <vector>
 

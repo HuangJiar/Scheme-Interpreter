@@ -2,10 +2,10 @@
 #define SYNTAX
 
 #include <cstring>
-#include <memory>
+// #include <memory>
 #include <vector>
 #include "Def.hpp"
-#include "shared.hpp"
+#include "smart_ptr.hpp"
 
 struct SyntaxBase {
   virtual Expr parse(Assoc &) = 0;

@@ -3,8 +3,8 @@
 
 #include "Def.hpp"
 #include "syntax.hpp"
-#include "shared.hpp"
-#include <memory>
+#include "smart_ptr.hpp"
+// #include <memory>
 #include <cstring>
 #include <vector>
 
@@ -41,7 +41,7 @@ struct Lambda : ExprBase {
 struct Apply : ExprBase {
     Expr rator;
     std::vector<Expr> rand;
-    Apply(const Expr &, const std :: vector<Expr> &);
+    Apply(const Expr & , const std :: vector<Expr> &);
     virtual Value eval(Assoc &) override;
 }; // this is used to handle function calling, where rator is the operator and rands are operands
 

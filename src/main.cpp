@@ -25,6 +25,7 @@ void REPL()
         {
             Expr expr = stx -> parse(global_env); // parse
             // stx -> show(std :: cout); // syntax print
+            // std::cout<<std::endl;
             Value val = expr -> eval(global_env);
             if (val -> v_type == V_TERMINATE)
                 break;
@@ -33,7 +34,7 @@ void REPL()
         catch (const RuntimeError &RE)
         {
             // std :: cout << RE.message();
-            std :: cout << "RuntimeError";
+            std :: cout << "RuntimeError:"<<RE.message();
         }
         puts("");
     }

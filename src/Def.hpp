@@ -33,5 +33,7 @@ enum ValueType
 
 void initPrimitives();
 void initReservedWords();
+std::pair<bool, Value> FindVar(Assoc&, const std::string&); // This function is implemented in evaluation.cpp
+void BindVariable(Assoc &e, const std::string &var, const Value &v); // This function is implemented in evaluation.cpp
 
 #endif
