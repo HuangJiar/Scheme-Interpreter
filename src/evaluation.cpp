@@ -80,8 +80,12 @@ Value Letrec::eval(Assoc &env) {
     for (auto [s, exp]:bind)
         BindVariable(env1, s, Value(nullptr));
     Assoc env2 = env1;
-    for (auto [s, exp]:bind)
-        BindVariable(env2, s, exp->eval(env1));
+    for (auto [s, exp]:bind) {
+        Value v = exp->eval(env1);
+        if (v.get() == nullptr)
+            throw RuntimeError("Unknown error");
+        BindVariable(env2, s, v);
+    }
     for (auto [s, exp]:bind) {
         Value val = exp->eval(env2);
         ChangeBind(env2, s, val);
