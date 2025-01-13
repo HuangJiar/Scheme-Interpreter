@@ -92,6 +92,11 @@ Value Letrec::eval(Assoc &env) {
 } // letrec expression
 
 Value Var::eval(Assoc &e) {
+    if (isdigit(x[0]))
+        throw RuntimeError("Unrecognizable variable");
+    for (auto ch:x)
+        if (isspace(ch) || ch == '#' || ch == '\'' || ch == '\"' || ch == '`')
+            throw RuntimeError("Unrecognizable variable");
     static Assoc p = empty();
     static bool flag;
     flag = false, p = e;
