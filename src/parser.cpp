@@ -65,12 +65,14 @@ Expr List :: parse(Assoc &env) {
         }
         if (IdPtr1->s == "exit") {
             if (stxs.size() > 1)
-                throw RuntimeError("exit with followings");
+                //throw RuntimeError("exit with followings");
+                goto Apply;
             return Expr(new Exit());
         }
         if (IdPtr1->s == "void") {
             if (stxs.size() > 1)
-                throw RuntimeError("void with followings");
+                //throw RuntimeError("void with followings");
+                goto Apply;
             return Expr(new MakeVoid());
         }
         if (IdPtr1->s == "#t")
@@ -78,113 +80,138 @@ Expr List :: parse(Assoc &env) {
         if (IdPtr1->s == "#f")
             return Expr(new False());
         if (IdPtr1->s == "+") {
-            if (stxs.size() == 1)
-                return Expr(new Fixnum(0));
-            if (stxs.size() == 2)
-                return Expr(new Plus(stxs[1]->parse(env), Expr(new Fixnum(0))));
-            Expr ret = Expr(new Plus(stxs[1]->parse(env), stxs[2]->parse(env)));
-            for (int i = 3;i < stxs.size();++i)
-                ret = Expr(new Plus(ret, stxs[i]->parse(env)));
-            return ret;
+            //if (stxs.size() == 1)
+            //    return Expr(new Fixnum(0));
+            //if (stxs.size() == 2)
+            //    return Expr(new Plus(stxs[1]->parse(env), Expr(new Fixnum(0))));
+            //Expr ret = Expr(new Plus(stxs[1]->parse(env), stxs[2]->parse(env)));
+            //for (int i = 3;i < stxs.size();++i)
+            //    ret = Expr(new Plus(ret, stxs[i]->parse(env)));
+            //return ret;
+            if (stxs.size() == 3)
+                return Expr(new Plus(stxs[1]->parse(env), stxs[2]->parse(env)));
+            goto Apply;
         }
         if (IdPtr1->s == "-") {
-            if (stxs.size() == 1)
-                throw RuntimeError("- with wrong number of variables");
-            if (stxs.size() == 2)
-                return Expr(new Minus(Expr(new Fixnum(0)), stxs[1]->parse(env)));
-            Expr ret = Expr(new Minus(stxs[1]->parse(env), stxs[2]->parse(env)));
-            for (int i = 3;i < stxs.size();++i)
-                ret = Expr(new Minus(ret, stxs[i]->parse(env)));
-            return ret;
+            //if (stxs.size() == 1)
+            //    throw RuntimeError("- with wrong number of variables");
+            //if (stxs.size() == 2)
+            //    return Expr(new Minus(Expr(new Fixnum(0)), stxs[1]->parse(env)));
+            //Expr ret = Expr(new Minus(stxs[1]->parse(env), stxs[2]->parse(env)));
+            //for (int i = 3;i < stxs.size();++i)
+            //    ret = Expr(new Minus(ret, stxs[i]->parse(env)));
+            //return ret;
+            if (stxs.size() == 3)
+                return Expr(new Minus(stxs[1]->parse(env), stxs[2]->parse(env)));
+            goto Apply;
         }
         if (IdPtr1->s == "*") {
-            if (stxs.size() == 1)
-                return Expr(new Fixnum(1));
-            if (stxs.size() == 2)
-                return Expr(new Mult(stxs[1]->parse(env), Expr(new Fixnum(1))));
-            Expr ret = Expr(new Mult(stxs[1]->parse(env), stxs[2]->parse(env)));
-            for (int i = 3;i < stxs.size();++i)
-                ret = Expr(new Mult(ret, stxs[i]->parse(env)));
-            return ret;
+            //if (stxs.size() == 1)
+            //    return Expr(new Fixnum(1));
+            //if (stxs.size() == 2)
+            //    return Expr(new Mult(stxs[1]->parse(env), Expr(new Fixnum(1))));
+            //Expr ret = Expr(new Mult(stxs[1]->parse(env), stxs[2]->parse(env)));
+            //for (int i = 3;i < stxs.size();++i)
+            //    ret = Expr(new Mult(ret, stxs[i]->parse(env)));
+            //return ret;
+            if (stxs.size() == 3)
+                return Expr(new Mult(stxs[1]->parse(env), stxs[2]->parse(env)));
+            goto Apply;
         }
         if (IdPtr1->s == "<") {
             if (stxs.size() != 3)
-                throw RuntimeError("< with wrong number of variables");
+                //throw RuntimeError("< with wrong number of variables");
+                goto Apply;
             return Expr(new Less(stxs[1]->parse(env), stxs[2]->parse(env)));
         }
         if (IdPtr1->s == ">") {
             if (stxs.size() != 3)
-                throw RuntimeError("> with wrong number of variables");
+                //throw RuntimeError("> with wrong number of variables");
+                goto Apply;
             return Expr(new Greater(stxs[1]->parse(env), stxs[2]->parse(env)));
         }
         if (IdPtr1->s == "<=") {
             if (stxs.size() != 3)
-                throw RuntimeError("<= with wrong number of variables");
+                //throw RuntimeError("<= with wrong number of variables");
+                goto Apply;
             return Expr(new LessEq(stxs[1]->parse(env), stxs[2]->parse(env)));
         }
         if (IdPtr1->s == ">=") {
             if (stxs.size() != 3)
-                throw RuntimeError(">= with wrong number of variables");
+                //throw RuntimeError(">= with wrong number of variables");
+                goto Apply;
             return Expr(new GreaterEq(stxs[1]->parse(env), stxs[2]->parse(env)));
         }
         if (IdPtr1->s == "=") {
             if (stxs.size() != 3)
-                throw RuntimeError("= with wrong number of variables");
+                //throw RuntimeError("= with wrong number of variables");
+                goto Apply;
             return Expr(new Equal(stxs[1]->parse(env), stxs[2]->parse(env)));
         }
         if (IdPtr1->s == "not") {
             if (stxs.size() != 2)
-                throw RuntimeError("\'not\' with wrong number of variables");
+                //throw RuntimeError("\'not\' with wrong number of variables");
+                goto Apply;
             return Expr(new Not(stxs[1]->parse(env)));
         }
         if (IdPtr1->s == "fixnum?") {
             if (stxs.size() != 2)
-                throw RuntimeError("\'fixnum?\' with wrong number of variables");
+                //throw RuntimeError("\'fixnum?\' with wrong number of variables");
+                goto Apply;
             return Expr(new IsFixnum(stxs[1]->parse(env)));
         }
         if (IdPtr1->s == "boolean?") {
             if (stxs.size() != 2)
-                throw RuntimeError("\'boolean?\' with wrong number of variables");
+                //throw RuntimeError("\'boolean?\' with wrong number of variables");
+                goto Apply;
             return Expr(new IsBoolean(stxs[1]->parse(env)));
         }
         if (IdPtr1->s == "null?") {
             if (stxs.size() != 2)
-                throw RuntimeError("\'null?\' with wrong number of variables");
+                //throw RuntimeError("\'null?\' with wrong number of variables");
+                goto Apply;
             return Expr(new IsNull(stxs[1]->parse(env)));
         }
         if (IdPtr1->s == "pair?") {
             if (stxs.size() != 2)
-                throw RuntimeError("\'pair?\' with wrong number of variables");
+                //throw RuntimeError("\'pair?\' with wrong number of variables");
+                goto Apply;
             return Expr(new IsPair(stxs[1]->parse(env)));
         }
         if (IdPtr1->s == "symbol?") {
             if (stxs.size() != 2)
-                throw RuntimeError("\'symbol?\' with wrong number of variables");
+                //throw RuntimeError("\'symbol?\' with wrong number of variables");
+                goto Apply;
             return Expr(new IsSymbol(stxs[1]->parse(env)));
         }
         if (IdPtr1->s == "procedure?") {
             if (stxs.size() != 2)
-                throw RuntimeError("\'procedure?\' with wrong number of variables");
+                //throw RuntimeError("\'procedure?\' with wrong number of variables");
+                goto Apply;
             return Expr(new IsProcedure(stxs[1]->parse(env)));
         }
         if (IdPtr1->s == "eq?") {
             if (stxs.size() != 3)
-                throw RuntimeError("\'eq?\' with wrong number of variables");
+                //throw RuntimeError("\'eq?\' with wrong number of variables");
+                goto Apply;
             return Expr(new IsEq(stxs[1]->parse(env), stxs[2]->parse(env)));
         }
         if (IdPtr1->s == "quote") {
             if (stxs.size() != 2)
-                throw RuntimeError("\'eq?\' with wrong number of variables");
+                //throw RuntimeError("\'eq?\' with wrong number of variables");
+                goto Apply;
             return Expr(new Quote(stxs[1]));
         }
         if (IdPtr1->s == "car") {
             if (stxs.size() != 2)
-                throw RuntimeError("\'car\' with wrong number of variables");
+                //throw RuntimeError("\'car\' with wrong number of variables");
+                goto Apply;
             return Expr(new Car(stxs[1]->parse(env)));
         }
         if (IdPtr1->s == "cdr") {
             if (stxs.size() != 2)
-                throw RuntimeError("\'cdr\' with wrong number of variables");
+                //throw RuntimeError("\'cdr\' with wrong number of variables");
+                goto Apply;
             return Expr(new Cdr(stxs[1]->parse(env)));
         }
         if (IdPtr1->s == "begin") {
@@ -195,27 +222,32 @@ Expr List :: parse(Assoc &env) {
         }
         if (IdPtr1->s == "if") {
             if (stxs.size() != 4)
-                throw RuntimeError("\'if\' with wrong number of variables");
+                //throw RuntimeError("\'if\' with wrong number of variables");
+                goto Apply;
             return Expr(new If(stxs[1]->parse(env), stxs[2]->parse(env), stxs[3]->parse(env)));
         }
         if (IdPtr1->s == "cons") {
             if (stxs.size() != 3)
-                throw RuntimeError("\'cons\' with wrong number of variables");
+                //throw RuntimeError("\'cons\' with wrong number of variables");
+                goto Apply;
             return Expr(new Cons(stxs[1]->parse(env), stxs[2]->parse(env)));
         }
         if (IdPtr1->s == "lambda") {
             if (stxs.size() != 3)
-                throw RuntimeError("\'lambda\' with wrong number of variables");
+                //throw RuntimeError("\'lambda\' with wrong number of variables");
+                goto Apply;
             List* LstPtr = dynamic_cast<List*>(stxs[1].get());
             if (LstPtr == nullptr)
-                throw RuntimeError("\'lambda\' with unreconizable variables");
+                //throw RuntimeError("\'lambda\' with unreconizable variables");
+                goto Apply;
             std::vector<std::string> x;
             Assoc env1 = env;
             for (auto ptr:LstPtr->stxs) {
                 static Identifier* IdPtr2;
                 IdPtr2 = dynamic_cast<Identifier*>(ptr.get());
                 if (IdPtr2 == nullptr)
-                    throw RuntimeError("\'lambda\' with unreconizable variables");
+                    //throw RuntimeError("\'lambda\' with unreconizable variables");
+                    goto Apply;
                 x.push_back(IdPtr2->s);
                 BindVariable(env1, IdPtr2->s, Value(nullptr));
             }
@@ -225,19 +257,23 @@ Expr List :: parse(Assoc &env) {
             // puts("Enter Let");
             // PrintAssoc(env);
             if (stxs.size() != 3)
-                throw RuntimeError("\'let\' with wrong number of variables");
+                //throw RuntimeError("\'let\' with wrong number of variables");
+                goto Apply;
             List* LstPtr = dynamic_cast<List*>(stxs[1].get());
             if (LstPtr == nullptr)
-                throw RuntimeError("\'let\' with unreconizable variables");
+                //throw RuntimeError("\'let\' with unreconizable variables");
+                goto Apply;
             std::vector<std::pair<std::string, Expr>> vecexp;
             Assoc env1 = env;
             for (auto stx:LstPtr->stxs) {
                 List* LstPtr1 = dynamic_cast<List*>(stx.get());
                 if ((LstPtr1->stxs).size() != 2)
-                    throw RuntimeError("\'let\' with unreconizable variables");
+                    //throw RuntimeError("\'let\' with unreconizable variables");
+                    goto Apply;
                 Identifier* IdPtr1 = dynamic_cast<Identifier*>(((LstPtr1->stxs)[0].get()));
                 if (IdPtr1 == nullptr)
-                    throw RuntimeError("\'let\' with unreconizable variables");
+                    //throw RuntimeError("\'let\' with unreconizable variables");
+                    goto Apply;
                 vecexp.push_back(std::make_pair(IdPtr1->s, (LstPtr1->stxs)[1].parse(env)));
                 BindVariable(env1, IdPtr1->s, Value(nullptr));
                 // std::cout<<"Bind:"<<IdPtr1->s<<std::endl;
@@ -248,19 +284,23 @@ Expr List :: parse(Assoc &env) {
         }
         if (IdPtr1->s == "letrec") {
             if (stxs.size() != 3)
-                throw RuntimeError("\'let\' with wrong number of variables");
+                //throw RuntimeError("\'let\' with wrong number of variables");
+                goto Apply;
             List* LstPtr = dynamic_cast<List*>(stxs[1].get());
             if (LstPtr == nullptr)
-                throw RuntimeError("\'let\' with unreconizable variables");
+                //throw RuntimeError("\'let\' with unreconizable variables");
+                goto Apply;
             std::vector<std::pair<std::string, Expr>> vecexp;
             Assoc env1 = env;
             for (auto stx:LstPtr->stxs) {
                 List* LstPtr1 = dynamic_cast<List*>(stx.get());
                 if ((LstPtr1->stxs).size() != 2)
-                    throw RuntimeError("\'let\' with unreconizable variables");
+                    //throw RuntimeError("\'let\' with unreconizable variables");
+                    goto Apply;
                 Identifier* IdPtr1 = dynamic_cast<Identifier*>(((LstPtr1->stxs)[0].get()));
                 if (IdPtr1 == nullptr)
-                    throw RuntimeError("\'let\' with unreconizable variables");
+                    //throw RuntimeError("\'let\' with unreconizable variables");
+                    goto Apply;
                 vecexp.push_back(std::make_pair(IdPtr1->s, (LstPtr1->stxs)[1].parse(env)));
                 BindVariable(env1, IdPtr1->s, Value(nullptr));
             }
@@ -268,6 +308,8 @@ Expr List :: parse(Assoc &env) {
             return Expr(new Letrec(vecexp, rator));
         }
     }
+    goto Apply;
+    Apply:
     std::vector<Expr> vecexpr;
     Expr rator = stxs[0].parse(env);
     for (int i = 1;i < stxs.size();++i)
