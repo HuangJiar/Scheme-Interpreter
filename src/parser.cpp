@@ -63,7 +63,7 @@ Expr List :: parse(Assoc &env) {
                 vecexpr.push_back(stxs[i].parse(env));
             return Expr(new Apply(Expr(new Var(IdPtr1->s)), vecexpr));
         }
-        if (IdPtr1->s == "exit") {
+        /*if (IdPtr1->s == "exit") {
             if (stxs.size() > 1)
                 //throw RuntimeError("exit with followings");
                 goto Apply;
@@ -74,12 +74,12 @@ Expr List :: parse(Assoc &env) {
                 //throw RuntimeError("void with followings");
                 goto Apply;
             return Expr(new MakeVoid());
-        }
+        }*/
         if (IdPtr1->s == "#t")
             return Expr(new True());
         if (IdPtr1->s == "#f")
             return Expr(new False());
-        if (IdPtr1->s == "+") {
+        /*if (IdPtr1->s == "+") {
             //if (stxs.size() == 1)
             //    return Expr(new Fixnum(0));
             //if (stxs.size() == 2)
@@ -195,12 +195,19 @@ Expr List :: parse(Assoc &env) {
                 //throw RuntimeError("\'eq?\' with wrong number of variables");
                 goto Apply;
             return Expr(new IsEq(stxs[1]->parse(env), stxs[2]->parse(env)));
-        }
+        }*/
         if (IdPtr1->s == "quote") {
             if (stxs.size() != 2)
                 //throw RuntimeError("\'eq?\' with wrong number of variables");
                 goto Apply;
             return Expr(new Quote(stxs[1]));
+        }
+        /*
+        if (IdPtr1->s == "cons") {
+            if (stxs.size() != 3)
+                //throw RuntimeError("\'cons\' with wrong number of variables");
+                goto Apply;
+            return Expr(new Cons(stxs[1]->parse(env), stxs[2]->parse(env)));
         }
         if (IdPtr1->s == "car") {
             if (stxs.size() != 2)
@@ -213,7 +220,7 @@ Expr List :: parse(Assoc &env) {
                 //throw RuntimeError("\'cdr\' with wrong number of variables");
                 goto Apply;
             return Expr(new Cdr(stxs[1]->parse(env)));
-        }
+        }*/
         if (IdPtr1->s == "begin") {
             std::vector<Expr> e;
             for (int i = 1;i < stxs.size();++i)
@@ -225,12 +232,6 @@ Expr List :: parse(Assoc &env) {
                 //throw RuntimeError("\'if\' with wrong number of variables");
                 goto Apply;
             return Expr(new If(stxs[1]->parse(env), stxs[2]->parse(env), stxs[3]->parse(env)));
-        }
-        if (IdPtr1->s == "cons") {
-            if (stxs.size() != 3)
-                //throw RuntimeError("\'cons\' with wrong number of variables");
-                goto Apply;
-            return Expr(new Cons(stxs[1]->parse(env), stxs[2]->parse(env)));
         }
         if (IdPtr1->s == "lambda") {
             if (stxs.size() != 3)

@@ -31,8 +31,6 @@ void ChangeBind(Assoc &e, const std::string &s, const Value &v) {
     throw RuntimeError("Unknown error");
 }
 
-
-
 std::pair<bool, Value> FindVar(Assoc &env, const std::string &s) {
     Assoc e = env;
     while (e.get() != nullptr) {
